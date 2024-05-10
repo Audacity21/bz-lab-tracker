@@ -6,8 +6,8 @@ const Navbar: React.FC = () => {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography variant="h6">Being Zero</Typography>
-                <div style={{ marginLeft: 'auto' }}>
+                <Typography variant="h6">BZ Lab Tracker</Typography>
+                <div style={{ marginLeft: 'auto', display: "flex", justifyContent: "space-between", alignItems: "center", width: "150px" }}>
                     <FileUpload />
                     <Filter />
                 </div>
