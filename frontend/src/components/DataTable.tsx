@@ -17,31 +17,30 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import { Button } from "@material-ui/core";
+
+let absent: string[][] = [];
 
 interface Data {
   id: number;
   username: string;
   solved: number;
   score: number;
-  attendance: string;
 }
 
 function createData(
   id: number,
   username: string,
   solved: number,
-  score: number,
-  attendance: string
+  score: number
 ): Data {
   return {
     id,
     username,
     solved,
     score,
-    attendance,
   };
 }
 
@@ -50,7 +49,7 @@ const data = JSON.parse(localStorage.getItem("fileData") || "[]");
 
 const rows: Data[] = data.map(
   (item: { id: number; username: string; solved: number; score: number }) =>
-    createData(index++, item.USERNAME, item.SOLVED, item.SCORE)
+    createData(item.RANK, item.USERNAME, item.SOLVED, item.SCORE)
 );
 
 console.log(data);
@@ -106,7 +105,7 @@ const headCells: readonly HeadCell[] = [
     id: "id",
     numeric: true,
     disablePadding: false,
-    label: "Index",
+    label: "Rank",
   },
   {
     id: "username",
@@ -125,12 +124,6 @@ const headCells: readonly HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: "Score",
-  },
-  {
-    id: "attendance",
-    numeric: true,
-    disablePadding: false,
-    label: "Attendance",
   },
 ];
 
@@ -202,10 +195,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  onDelete: () => void; // Add onDelete prop
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
+  const { numSelected, onDelete } = props; // Destructure onDelete
 
   return (
     <Toolbar
@@ -242,8 +236,10 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
+          <IconButton onClick={onDelete}>
+            <Button variant="contained" color="primary">
+              Mark Absent
+            </Button>
           </IconButton>
         </Tooltip>
       ) : (
@@ -256,6 +252,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     </Toolbar>
   );
 }
+
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>("desc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("solved");
@@ -263,6 +260,7 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [deletedUsernames, setDeletedUsernames] = React.useState<string[]>([]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -301,6 +299,34 @@ export default function EnhancedTable() {
     setSelected(newSelected);
   };
 
+  const filterAbsent = () => {
+    let absentStudent = JSON.parse(localStorage.getItem("absent") || "[]");
+    let temp = [];
+    for (let i = 0; i < data.length; i++) {
+      let flag = 0;
+      for (let j = 0; j < absentStudent.length; j++) {
+        if (absentStudent[j] === data[i].USERNAME) {
+          flag = 1;
+          break;
+        }
+      }
+      if (flag == 0) {
+        temp.push(data[i]);
+      }
+    }
+    localStorage.setItem("fileData", JSON.stringify(temp));
+  };
+
+  const handleDelete = () => {
+    const deletedUsernamesList = selected.map(
+      (id) => rows.find((row) => row.id === id)?.username
+    ) as string[];
+    setDeletedUsernames(deletedUsernamesList);
+    setSelected([]);
+    localStorage.setItem("absent", JSON.stringify(deletedUsernamesList));
+    filterAbsent();
+  };
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -334,7 +360,10 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          onDelete={handleDelete}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -402,7 +431,7 @@ export default function EnhancedTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10, 25, data.length]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
