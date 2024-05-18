@@ -31,7 +31,9 @@ const FileUpload = () => {
         style={{
           color: "white",
           backgroundColor: "transparent",
-          borderRadius: "50%",
+          borderRadius: "20%",
+          width: "20px",
+          height: "40px",
         }}
       >
         <FileUploadIcon />
