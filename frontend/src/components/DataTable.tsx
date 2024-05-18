@@ -15,13 +15,10 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { Button } from "@material-ui/core";
-
-let absent: string[][] = [];
 
 interface Data {
   id: number;
@@ -244,8 +241,10 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
+          <IconButton onClick={() => {
+            window.location.href = "/getstats";
+          }}>
+            <Button variant="contained" color="primary">Get Stats</Button>
           </IconButton>
         </Tooltip>
       )}
