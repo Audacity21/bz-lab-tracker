@@ -56,6 +56,7 @@ const GetStats = () => {
   const [selectedSolvedCount, setSelectedSolvedCount] = useState(0);
 
   const data: any[] = JSON.parse(localStorage.getItem('fileData') || "[]");
+  const absent: any[] = JSON.parse(localStorage.getItem('absent') || "[]");
 
   const getTopPerformers = () => {
     const sortedData = [...data].sort((a, b) => b['SCORE'] - a['SCORE']);
@@ -152,13 +153,20 @@ const GetStats = () => {
           <Paper elevation={3} className={classes.paper}>
             <h1 style={{marginBottom: 10}}>Overall Stats</h1>
             <ul className={classes.list}>
-              <li className={classes.listItem}>Total Users: {data.length}</li>
-              <li className={classes.listItem}>Average Solved Problems: {data.reduce((acc, curr) => acc + curr['SOLVED'], 0) / data.length}</li>
+              <li className={classes.listItem}>Present Users: {data.length}</li>
+              <li className={classes.listItem}>Total Absentees: {absent.length}</li>
+              <li className={classes.listItem}>Average Solved Count: {data.reduce((acc, curr) => acc + curr['SOLVED'], 0) / data.length}</li>
               <li className={classes.listItem}>Highest Solved Count: {Math.max(...data.map(entry => entry['SOLVED']))}</li>
+              <li className={classes.listItem}>Lowest Solved Count: {Math.min(...data.map(entry => entry['SOLVED']))}</li>
               </ul>
           </Paper>
         </Grid>
       </Grid>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => window.location.href = '/'} // Redirect to home page
+      >Go Back</Button>
     </Container>
   );
 }
