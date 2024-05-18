@@ -1,4 +1,3 @@
-import { Label } from "@mui/icons-material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import {
   Dialog,
@@ -9,8 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-
-let filteredStudent: any[] = [];
+import { filterLabStudent } from "../services/utils";
 
 const Filter = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,27 +20,10 @@ const Filter = () => {
       setIsModalOpen(false);
       filterData = text.split(" ");
       localStorage.setItem("labStudent", JSON.stringify(filterData));
-      //console.log(filterData);
       filterLabStudent();
     }
   };
 
-  const filterLabStudent = () => {
-    let allStudent = JSON.parse(localStorage.getItem("allData") || "[]");
-    let ls = JSON.parse(localStorage.getItem("labStudent") || "[]");
-    filteredStudent = [];
-    for (let i = 0; i < allStudent.length; i++) {
-      for (let j = 0; j < ls.length; j++) {
-        if (allStudent[i].USERNAME === ls[j]) {
-          filteredStudent.push(allStudent[i]);
-          break;
-        }
-      }
-    }
-    localStorage.setItem("fileData", JSON.stringify(filteredStudent));
-    //console.log(filteredStudent);
-  };
-  
   return (
     <div>
       <Button

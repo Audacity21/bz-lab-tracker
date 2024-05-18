@@ -19,6 +19,7 @@ import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { visuallyHidden } from "@mui/utils";
+import { filterAbsent } from "../services/utils";
 
 interface Data {
   id: number;
@@ -48,8 +49,6 @@ const rows: Data[] = data.map(
   (item: { id: number; username: string; solved: number; score: number }) =>
     createData(item.RANK, item.USERNAME, item.SOLVED, item.SCORE)
 );
-
-console.log(data);
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -241,10 +240,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton onClick={() => {
-            window.location.href = "/getstats";
-          }}>
-            <Button variant="contained" color="primary">Get Stats</Button>
+          <IconButton
+            onClick={() => {
+              window.location.href = "/getstats";
+            }}
+          >
+            <Button variant="contained" color="primary">
+              Get Stats
+            </Button>
           </IconButton>
         </Tooltip>
       )}
@@ -296,24 +299,6 @@ export default function EnhancedTable() {
       );
     }
     setSelected(newSelected);
-  };
-
-  const filterAbsent = () => {
-    let absentStudent = JSON.parse(localStorage.getItem("absent") || "[]");
-    let temp = [];
-    for (let i = 0; i < data.length; i++) {
-      let flag = 0;
-      for (let j = 0; j < absentStudent.length; j++) {
-        if (absentStudent[j] === data[i].USERNAME) {
-          flag = 1;
-          break;
-        }
-      }
-      if (flag == 0) {
-        temp.push(data[i]);
-      }
-    }
-    localStorage.setItem("fileData", JSON.stringify(temp));
   };
 
   const handleDelete = () => {

@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
+import { filterAllDataWithPresentData } from "../services/utils";
 
 const FileUpload = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +18,11 @@ const FileUpload = () => {
     if (selectedFile) {
       await getJSONFromExcel(selectedFile).then((data: any) => {
         localStorage.setItem("allData", JSON.stringify(data));
-        localStorage.setItem("fileData", JSON.stringify(data));
+        if (!localStorage.getItem("fileData")) {
+          localStorage.setItem("fileData", JSON.stringify(data));
+        } else {
+          filterAllDataWithPresentData();
+        }
         setIsModalOpen(false);
       });
     }
