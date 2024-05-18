@@ -16,7 +16,7 @@ const FileUpload = () => {
   const handleUpload = async () => {
     if (selectedFile) {
       await getJSONFromExcel(selectedFile).then((data: any) => {
-        localStorage.setItem("fileData", JSON.stringify(data));
+        localStorage.setItem("allData", JSON.stringify(data));
         setIsModalOpen(false);
         //console.log(data);
       });
