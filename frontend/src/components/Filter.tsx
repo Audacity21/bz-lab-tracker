@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   Button,
+  TextField,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -51,32 +52,24 @@ const Filter = () => {
       </Button>
 
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DialogTitle>Enter ID Number</DialogTitle>
+        <DialogTitle>Lab Students username</DialogTitle>
         <DialogContent>
-          <input
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Space separated usernames"
             type="text"
+            fullWidth
             onChange={(e) => {
               setText(e.target.value);
             }}
-            //style={{ display: "none" }}
-            id="text-input"
           />
-
-          {/* {selectedFile && (
-            <Typography variant="body1" gutterBottom>
-              Selected File: {selectedFile.name}
-            </Typography>
-          )} */}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsModalOpen(false)} color="secondary">
             Cancel
           </Button>
-          <Button
-            onClick={handleTextChange}
-            color="primary"
-            //disabled={!selectedFile}
-          >
+          <Button onClick={handleTextChange} color="primary">
             Save
           </Button>
         </DialogActions>
