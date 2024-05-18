@@ -19,6 +19,7 @@ import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { visuallyHidden } from "@mui/utils";
+import ExportExcel from "./ExportExcel";
 import { filterAbsent } from "../services/utils";
 
 interface Data {
@@ -428,6 +429,9 @@ export default function EnhancedTable() {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <ExportExcel />
+      </div>
     </Box>
   );
 }

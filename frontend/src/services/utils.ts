@@ -11,6 +11,7 @@ const filterLabStudent = () => {
     }
   }
   localStorage.setItem("fileData", JSON.stringify(filteredStudent));
+  window.location.reload();
 };
 
 const filterAbsent = () => {
@@ -30,6 +31,7 @@ const filterAbsent = () => {
     }
   }
   localStorage.setItem("fileData", JSON.stringify(temp));
+  window.location.reload();
 };
 
 const filterAllDataWithPresentData = () => {
@@ -44,5 +46,6 @@ const filterAllDataWithPresentData = () => {
     }
   }
   localStorage.setItem("fileData", JSON.stringify(temp));
+  window.location.reload();
 };
 export { filterAbsent, filterLabStudent, filterAllDataWithPresentData };

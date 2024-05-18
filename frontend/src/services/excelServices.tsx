@@ -14,3 +14,10 @@ export const getJSONFromExcel = (file: File) => {
     reader.readAsBinaryString(file);
   });
 };
+
+export const getExcelFromJSON = (data: any[], filename: string) => {
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  XLSX.writeFile(wb, filename);
+};
