@@ -1,7 +1,7 @@
 import * as XLSX from 'xlsx';
 
 export const getJSONFromExcel = (file: File) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const bstr = e.target?.result;

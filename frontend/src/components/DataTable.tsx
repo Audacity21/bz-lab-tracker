@@ -43,12 +43,11 @@ function createData(
   };
 }
 
-let index = 1;
 const data = JSON.parse(localStorage.getItem("fileData") || "[]");
 
 const rows: Data[] = data.map(
   (item: { id: number; username: string; solved: number; score: number }) =>
-    createData(item.RANK, item.USERNAME, item.SOLVED, item.SCORE)
+    createData(item.id, item.username, item.solved, item.score)
 );
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -269,9 +268,11 @@ export default function EnhancedTable() {
     event: React.MouseEvent<unknown>,
     property: keyof Data
   ) => {
+    console.log(event);
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
+    console.log(deletedUsernames);
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -284,6 +285,7 @@ export default function EnhancedTable() {
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+    console.log(event);
     const selectedIndex = selected.indexOf(id);
     let newSelected: readonly number[] = [];
 
@@ -313,6 +315,7 @@ export default function EnhancedTable() {
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    console.log(event);
     setPage(newPage);
   };
 
