@@ -16,6 +16,7 @@ const Filter = () => {
   let filterData: string | any[] = [];
 
   const handleTextChange = (e: any) => {
+    console.log(e);
     if (setText != null) {
       setIsModalOpen(false);
       filterData = text.split(" ");
