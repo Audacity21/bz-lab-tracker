@@ -3,7 +3,7 @@ name: Build Test
 on:
   pull_request:
     branches:
-      - '**' 
+      - '**' # This triggers the workflow on pull requests for all branches
 
 jobs:
   build:
@@ -18,7 +18,11 @@ jobs:
         node-version: '20'
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        cd frontend
+        npm install --legacy-peer-deps
 
     - name: Run build
-      run: npm run build
+      run: |
+        cd frontend
+        npm run build
