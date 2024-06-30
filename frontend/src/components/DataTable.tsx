@@ -46,8 +46,8 @@ function createData(
 const data = JSON.parse(localStorage.getItem("fileData") || "[]");
 
 const rows: Data[] = data.map(
-  (item: { id: number; username: string; solved: number; score: number }) =>
-    createData(item.id, item.username, item.solved, item.score)
+  (item: { RANK: number; USERNAME: string; SOLVED: number; SCORE: number }) =>
+    createData(item.RANK, item.USERNAME, item.SOLVED, item.SCORE)
 );
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -308,11 +308,14 @@ export default function EnhancedTable() {
     const deletedUsernamesList = selected.map(
       (id) => rows.find((row) => row.id === id)?.username
     ) as string[];
-    setDeletedUsernames(deletedUsernamesList);
+    const existingAbsentees = JSON.parse(localStorage.getItem("absent") || "[]");
+    const updatedAbsentees = [...existingAbsentees, ...deletedUsernamesList];
+    setDeletedUsernames(updatedAbsentees);
     setSelected([]);
-    localStorage.setItem("absent", JSON.stringify(deletedUsernamesList));
+    localStorage.setItem("absent", JSON.stringify(updatedAbsentees));
     filterAbsent();
   };
+  
 
   const handleChangePage = (event: unknown, newPage: number) => {
     console.log(event);
