@@ -20,6 +20,7 @@ const FileUpload = () => {
         localStorage.setItem("allData", JSON.stringify(data));
         if (!localStorage.getItem("fileData")) {
           localStorage.setItem("fileData", JSON.stringify(data));
+          window.location.reload();
         } else {
           filterAllDataWithPresentData();
         }
