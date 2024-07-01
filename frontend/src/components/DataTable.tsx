@@ -437,6 +437,10 @@ export default function EnhancedTable() {
       />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
         <ExportExcel />
+        <Button variant="contained" style={{margin: '10px', marginTop: '20px'}} color="error" onClick={() => {
+          localStorage.clear();
+          window.location.reload();
+        }}>RESET</Button>
       </div>
     </Box>
   );
