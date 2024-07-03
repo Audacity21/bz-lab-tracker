@@ -261,7 +261,9 @@ export default function EnhancedTable() {
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const initialRowsPerPage = parseInt(localStorage.getItem('rowsPerPage') || '5', 10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(initialRowsPerPage);
+
   const [deletedUsernames, setDeletedUsernames] = React.useState<string[]>([]);
 
   const handleRequestSort = (
@@ -322,12 +324,15 @@ export default function EnhancedTable() {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    setRowsPerPage(newRowsPerPage);
+    localStorage.setItem('rowsPerPage', newRowsPerPage.toString());
     setPage(0);
   };
+  
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
