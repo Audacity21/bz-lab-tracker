@@ -1,7 +1,11 @@
 import { Button } from "@material-ui/core";
 import { getExcelFromJSON } from "../services/excelServices";
 
-const ExportExcel = () => {
+type ExportExcelPropType = {
+  disabled: boolean,
+}
+
+const ExportExcel = ({ disabled }: ExportExcelPropType) => {
 
   const handleExport = () => {
     const data = JSON.parse(localStorage.getItem('fileData') || "[]");
@@ -28,7 +32,7 @@ const ExportExcel = () => {
 
   return (
     <div>
-      <Button variant="contained" color="primary" style={{marginTop: 10}} onClick={handleExport}>
+      <Button variant="contained" disabled={disabled} color="primary" style={{marginTop: 10}} onClick={handleExport}>
         Export Excel
       </Button>
     </div>

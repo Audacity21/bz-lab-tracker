@@ -441,7 +441,7 @@ export default function EnhancedTable() {
         label="Dense padding"
       />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
-        <ExportExcel />
+        <ExportExcel disabled={data.length === 0}/>
         <Button variant="contained" style={{margin: '10px', marginTop: '20px'}} color="error" onClick={() => {
           localStorage.clear();
           window.location.reload();
